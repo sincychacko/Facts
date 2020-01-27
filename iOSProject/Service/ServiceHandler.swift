@@ -8,11 +8,20 @@
 
 import Foundation
 
+enum ServiceError: Error {
+    case invalidURL
+    case invalidResponse
+    case errorWhileDecoding
+    case customError(String)
+}
+
 protocol APIServiceProtocol {
     func fetchFacts(_ completion: @escaping (Result<FactInfo, Error>) -> Void)
 }
 
-class ServiceHandler: APIServiceProtocol {
+final class ServiceHandler: APIServiceProtocol {
+    static let shared = ServiceHandler()
+    
     private let factsUrl = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
     
     func fetchFacts(_ completion: @escaping (Result<FactInfo, Error>) -> Void) {
@@ -33,16 +42,19 @@ class ServiceHandler: APIServiceProtocol {
             
             guard let _ = response as? HTTPURLResponse, let validData = data else {
                 completion(.failure(ServiceError.invalidResponse))
-                    return
+                return
             }
-            
-            do {
-                let factInfo = try JSONDecoder().decode(FactInfo.self, from: validData)
-                completion(.success(factInfo))
-            } catch {
-                completion(.failure(ServiceError.errorWhileDecoding))
+            if let value = String(data: validData, encoding: String.Encoding.ascii) {
+                if let jsonData = value.data(using: String.Encoding.utf8) {
+                    do {
+                        let factInfo = try JSONDecoder().decode(FactInfo.self, from: jsonData)
+                        completion(.success(factInfo))
+
+                    } catch {
+                        completion(.failure(ServiceError.errorWhileDecoding))
+                    }
+                }
             }
-            
             
         }) .resume()
 

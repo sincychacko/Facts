@@ -9,22 +9,21 @@
 import Foundation
 import UIKit
 
-enum ServiceError: Error {
-    case invalidURL
-    case invalidResponse
-    case errorWhileDecoding
-}
-
-class DownloadManager {
+final class DownloadManager {
+    
     typealias ImageDownloadHandler = (_ image: UIImage?, _ indexPath: IndexPath?, _ error: Error?) -> Void
+    
+    //MARK: - Properties
     var fact: Fact
     private var sessionTask: URLSessionDataTask?
     private let imageCache = NSCache<NSString, UIImage>()
     
+    //MARK: - Initializers
     init(withFact fact: Fact) {
         self.fact = fact
     }
     
+    //MARK: - Download handler methods
     func downloadImage(at indexPath: IndexPath?, completion: @escaping ImageDownloadHandler) {
         guard fact.imageName != nil, let url = URL(string: fact.imageName!) else {
             completion(nil, indexPath, ServiceError.invalidURL)
@@ -38,7 +37,7 @@ class DownloadManager {
         } else {
             sessionTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard error == nil else {
-                    completion(nil, indexPath, error)
+                    completion(nil, indexPath, ServiceError.customError(error!.localizedDescription))
                     return
                 }
                 
@@ -55,6 +54,7 @@ class DownloadManager {
     }
     
     func cancelDownload() {
-        
+        sessionTask?.cancel()
+        sessionTask = nil
     }
 }

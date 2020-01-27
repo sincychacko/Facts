@@ -12,7 +12,7 @@ import SVProgressHUD
 class FactsViewController: UIViewController {
     
     //MARK: - Outlets
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView?
     @IBOutlet weak var reloadButton: UIBarButtonItem!
     
     //MARK: - Properties
@@ -27,6 +27,7 @@ class FactsViewController: UIViewController {
         model.shouldRefresh = true
         reloadButton.isEnabled = false
         SVProgressHUD.show()
+        tableView?.accessibilityIdentifier = "factsTableView"
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,16 +66,18 @@ extension FactsViewController: UITableViewDataSource {
         
         let fact = model.facts[indexPath.row]
         
-        cell.titleLabel.text = fact.title
-        cell.descLabel.text = fact.description
-        cell.factImageView.image = UIImage(named: "loading")
+        cell.titleLabel?.text = fact.title
+        cell.descLabel?.text = fact.description
+        cell.factImageView?.image = UIImage(named: "loading")
+        cell.accessibilityIdentifier = "factCell_\(indexPath.row)"
         
         return cell
     }
     
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        let indexPath = tableView.indexPathsForVisibleRows![0]
-        tableView.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.top, animated: false)
+        if let indexPath = tableView?.indexPathsForVisibleRows?.first {
+            tableView?.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.top, animated: false)
+        }
     }
 }
 
@@ -90,9 +93,9 @@ extension FactsViewController: UITableViewDelegate {
                 DispatchQueue.main.async {
                     if let getCell = tableView.cellForRow(at: indexPathNew) {
                         if let img = image {
-                            (getCell as? FactCell)!.factImageView.image = img
+                            (getCell as? FactCell)!.factImageView?.image = img
                         } else {
-                            (getCell as? FactCell)!.factImageView.image = UIImage(named: "imageError")
+                            (getCell as? FactCell)!.factImageView?.image = UIImage(named: "imageError")
                         }
                         
                     }
@@ -114,7 +117,7 @@ extension FactsViewController: FactsViewModelDelegate {
     func fetchDidSucceed() {
         SVProgressHUD.dismiss()
         reloadButton.isEnabled = true
-        tableView.reloadData()
+        tableView?.reloadData()
         title = model.factsInfo?.title
     }
 }

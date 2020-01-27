@@ -12,13 +12,16 @@ class FactCell: UITableViewCell {
     
     static let reuseIdentifier = "FactCell"
     
-    @IBOutlet weak var factImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descLabel: UILabel!
+    @IBOutlet weak var factImageView: UIImageView?
+    @IBOutlet weak var titleLabel: UILabel?
+    @IBOutlet weak var descLabel: UILabel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        factImageView?.accessibilityIdentifier = "factImageView"
+        titleLabel?.accessibilityIdentifier = "titleLabel"
+        descLabel?.accessibilityIdentifier = "descLabel"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

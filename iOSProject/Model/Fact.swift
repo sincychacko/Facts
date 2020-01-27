@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct FactInfo: Codable {
+struct FactInfo: Codable, Equatable {
     var title: String
     var facts: [Fact]
     
@@ -18,7 +18,7 @@ struct FactInfo: Codable {
     }
 }
 
-struct Fact: Codable {
+struct Fact: Codable, Equatable {
     var title: String?
     var description: String?
     var imageName: String?
@@ -26,12 +26,5 @@ struct Fact: Codable {
     
     enum CodingKeys: String, CodingKey {
         case title, description, imageName = "imageHref"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
-        imageName = try container.decodeIfPresent(String.self, forKey: .imageName)
     }
 }
