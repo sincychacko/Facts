@@ -92,12 +92,7 @@ extension FactsViewController: UITableViewDelegate {
             if let indexPathNew = indexPathh {
                 DispatchQueue.main.async {
                     if let getCell = tableView.cellForRow(at: indexPathNew) {
-                        if let img = image {
-                            (getCell as? FactCell)!.factImageView?.image = img
-                        } else {
-                            (getCell as? FactCell)!.factImageView?.image = UIImage(named: "imageError")
-                        }
-                        
+                        (getCell as? FactCell)!.factImageView?.image = image ?? UIImage(named: "imageError")
                     }
                 }
             }
@@ -108,7 +103,7 @@ extension FactsViewController: UITableViewDelegate {
 
 // MARK: - FactsViewModelDelegate methods
 extension FactsViewController: FactsViewModelDelegate {
-    func fetchDidFail(with error: Error) {
+    func fetchDidFail(with error: ServiceError) {
         SVProgressHUD.dismiss()
         reloadButton.isEnabled = true
         showError(withError: error)

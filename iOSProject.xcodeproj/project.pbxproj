@@ -22,6 +22,7 @@
 		A745020523DF1F12006DC9E9 /* iOSProjectServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745020423DF1F11006DC9E9 /* iOSProjectServiceTests.swift */; };
 		A745020D23DF2108006DC9E9 /* iOSProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745020C23DF2108006DC9E9 /* iOSProjectUITests.swift */; };
 		A745021523DF2EB5006DC9E9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A745021423DF2EB5006DC9E9 /* README.md */; };
+		A745021A23F381E0006DC9E9 /* UIImageView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745021923F381E0006DC9E9 /* UIImageView+Additions.swift */; };
 		AD58C695717BD9919E77CE84 /* Pods_iOSProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E112C078B882C6C3A89E32 /* Pods_iOSProject.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		A745020C23DF2108006DC9E9 /* iOSProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSProjectUITests.swift; sourceTree = "<group>"; };
 		A745020E23DF2108006DC9E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A745021423DF2EB5006DC9E9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A745021923F381E0006DC9E9 /* UIImageView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Additions.swift"; sourceTree = "<group>"; };
 		F5E112C078B882C6C3A89E32 /* Pods_iOSProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				A74501EC23DEB594006DC9E9 /* UIViewController+Additions.swift */,
+				A745021923F381E0006DC9E9 /* UIImageView+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				A74501E923DE6FBF006DC9E9 /* Fact.swift in Sources */,
 				A74501D123DE669C006DC9E9 /* AppDelegate.swift in Sources */,
 				A74501FD23DEE8AC006DC9E9 /* ServiceHandler.swift in Sources */,
+				A745021A23F381E0006DC9E9 /* UIImageView+Additions.swift in Sources */,
 				A74501E723DE6F88006DC9E9 /* DownloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

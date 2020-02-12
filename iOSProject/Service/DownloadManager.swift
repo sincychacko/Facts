@@ -14,7 +14,7 @@ final class DownloadManager {
     typealias ImageDownloadHandler = (_ image: UIImage?, _ indexPath: IndexPath?, _ error: Error?) -> Void
     
     //MARK: - Properties
-    var fact: Fact
+    private var fact: Fact
     private var sessionTask: URLSessionDataTask?
     private let imageCache = NSCache<NSString, UIImage>()
     

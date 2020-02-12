@@ -17,18 +17,7 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func showError(withError error: Error) {
-        var message = ""
-        switch error {
-        case ServiceError.invalidURL:
-            message = "Something is wrong with the url"
-        case ServiceError.invalidResponse:
-            message = "Invalid response"
-        case ServiceError.errorWhileDecoding:
-            message = "Something went wrong while decoding the data"
-        default:
-            message = error.localizedDescription
-        }
-        showAlert(withTitle: "Alert", message: message)
+    func showError(withError error: ServiceError) {
+        showAlert(withTitle: "Alert", message: error.reason)
     }
 }

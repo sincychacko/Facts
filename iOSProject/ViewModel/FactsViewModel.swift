@@ -10,7 +10,7 @@ import Foundation
 
 protocol FactsViewModelDelegate: class {
     func fetchDidSucceed()
-    func fetchDidFail(with error: Error)
+    func fetchDidFail(with error: ServiceError)
 }
 
 class FactsViewModel {
@@ -38,13 +38,15 @@ class FactsViewModel {
     weak var delegate: FactsViewModelDelegate?
     
     private func getAllFacts() {
-        service?.fetchFacts { (result) in
+        service?.fetch(FactInfo.self) { (result) in
             self.shouldRefresh = false
             DispatchQueue.main.async {
                 switch result {
-                case .success(let factsInfo):
-                    self.factsInfo = factsInfo
-                    self.delegate?.fetchDidSucceed()
+                case .success(let data):
+                    if let factsInfo = data as? FactInfo {
+                        self.factsInfo = factsInfo
+                        self.delegate?.fetchDidSucceed()
+                    }
                 case .failure(let error):
                     self.delegate?.fetchDidFail(with: error)
                 }

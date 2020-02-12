@@ -13,10 +13,24 @@ enum ServiceError: Error {
     case invalidResponse
     case errorWhileDecoding
     case customError(String)
+    
+    var reason: String {
+        switch self {
+        case .invalidURL:
+            return "Something is wrong with the url"
+        case .invalidResponse:
+            return "Invalid response"
+        case .errorWhileDecoding:
+            return "Something went wrong while decoding the data"
+        case .customError(let error):
+            return error
+        }
+
+    }
 }
 
 protocol APIServiceProtocol {
-    func fetchFacts(_ completion: @escaping (Result<FactInfo, Error>) -> Void)
+    func fetch<Model: Codable>(_ model: Model.Type, completion: @escaping (Result<Codable, ServiceError>) -> Void)
 }
 
 final class ServiceHandler: APIServiceProtocol {
@@ -24,7 +38,7 @@ final class ServiceHandler: APIServiceProtocol {
     
     private let factsUrl = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
     
-    func fetchFacts(_ completion: @escaping (Result<FactInfo, Error>) -> Void) {
+    func fetch<Model: Codable>(_ model: Model.Type, completion: @escaping (Result<Codable, ServiceError>) -> Void) {
         
         guard let searchURL = URL(string: factsUrl) else {
             completion(.failure(ServiceError.invalidURL))
@@ -36,12 +50,12 @@ final class ServiceHandler: APIServiceProtocol {
         URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
             
             if let _ = error {
-                completion(.failure(error!))
+                completion(.failure(.customError(error!.localizedDescription)))
                 return
             }
             
             guard let _ = response as? HTTPURLResponse, let validData = data else {
-                completion(.failure(ServiceError.invalidResponse))
+                completion(.failure(.invalidResponse))
                 return
             }
             if let value = String(data: validData, encoding: String.Encoding.ascii) {
@@ -51,7 +65,7 @@ final class ServiceHandler: APIServiceProtocol {
                         completion(.success(factInfo))
 
                     } catch {
-                        completion(.failure(ServiceError.errorWhileDecoding))
+                        completion(.failure(.errorWhileDecoding))
                     }
                 }
             }
