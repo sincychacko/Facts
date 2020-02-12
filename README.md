@@ -7,6 +7,9 @@
 ## Runtime Requirements
 + iOS 11.0 SDK or later
 
+## Cocoapods
+iOS Project - Facts uses Cocoapods for dependency management. Please use the .xcworkspace file for running the project.
+
 ## About iOS Project - Facts
 Facts is a simple app that fetches data from a url and displays its contents in a table view with cells having a dynamic size. Table view has adaptive layout (Size classes) and works on both iPad and iPhones.
 
